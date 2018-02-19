@@ -1,0 +1,9 @@
+#!/bin/bash
+
+macosa_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd )"
+cd $macosa_dir
+if [ ! -f "$macosa_dir/.vaultpass" ]; then
+  printf "Couldn't find .vaultpass file at $macosa_dir/.vaultpass\n"
+  exit 1
+fi
+ansible-vault encrypt "user/$1"
