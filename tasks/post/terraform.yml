@@ -1,0 +1,33 @@
+---
+
+- name: Ensure tfenv is installed
+  homebrew:
+    name: tfenv
+    state: present
+
+- name: Install tfenv versions
+  shell: >
+    tfenv install {{ 'latest' if item == 'stable' else item }}
+  register: terraform_version_install
+  changed_when: "'Installing' in terraform_version_install.stdout"
+  with_items: "{{ terraform_versions }}"
+
+- name: Get actual version number of terraform latest
+  shell: >
+    tfenv list-remote | head -1
+  register: _terraform_latest_version
+  changed_when: false
+
+- set_fact:
+    _terraform_default_version: "{{ _terraform_latest_version.stdout|trim if terraform_default_version == 'stable' else terraform_default_version }}"
+
+- name: Get the current global tfenv version
+  shell: >
+    tfenv list | grep '^\*' | awk '{print $2}'
+  register: current_terraform_default_version
+  changed_when: false
+
+- name: Set the global tfenv version
+  shell: >
+    tfenv use {{ _terraform_default_version }}
+  when: current_terraform_default_version.stdout|trim != _terraform_default_version

@@ -1,0 +1,33 @@
+---
+
+- name: Link Safari in to /Applications/Browsers directory
+  file:
+    src: /Applications/Safari.app
+    dest: /Applications/Browsers/Safari.app
+    state: link
+  tags: [ browsers ]
+
+- name: Link Firefox in to /Applications/Browsers directory
+  file:
+    src: /Applications/Firefox.app
+    dest: /Applications/Browsers/Firefox.app
+    state: link
+  tags: [ browsers ]
+
+- name: Run .duti dotfile for file-to-application associations
+  command: duti -v ~/.duti
+  changed_when: false
+
+- name: Import gpg private key
+  shell: >
+    echo "{{ gpg.private_key }}" > /tmp/gpg-private-key && gpg --import /tmp/gpg-private-key; rm /tmp/gpg-private-key
+  register: gpg_import_private_key
+  changed_when: "'not changed' not in gpg_import_private_key.stderr"
+  tags: [ gpg ]
+
+- name: Import gpg private key
+  shell: >
+    echo "{{ gpg.public_key }}" > /tmp/gpg-public-key && gpg --import /tmp/gpg-public-key; rm /tmp/gpg-public-key
+  register: gpg_import_private_key
+  changed_when: "'not changed' not in gpg_import_private_key.stderr"
+  tags: [ gpg ]

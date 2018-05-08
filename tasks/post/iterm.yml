@@ -1,0 +1,38 @@
+---
+- name: Check for iTerm as a login item
+  command: >
+    osascript -e 'tell application "System Events" to get the properties of every login item whose name is "iTerm"'
+  register: iterm_loginitem
+  failed_when: "'error' in iterm_loginitem.stderr"
+  changed_when: false
+  tags: [ iterm ]
+
+# TODO: if we change one of the parameters in here, e.g. change hidden to true, it won't be changed if there's already an entry per check above
+- name: Open iTerm at login
+  command: >
+    {{ playbook_dir }}/bin/macosa_addloginitem "iTerm" "/Applications/iTerm.app" false
+  when: iterm_loginitem.stdout == ""
+  tags: [ iterm ]
+
+# TODO: This should probably just be a one-and-done write?
+- name: Ensure iTerm binary prefs file is up-to-date
+  copy:
+    src: "{{ playbook_dir }}/user/files/com.googlecode.iterm2.plist.binary"
+    dest: ~/Library/Preferences/com.googlecode.iterm2.plist
+    mode: 0600
+  tags: [ iterm ]
+
+# TODO: Hiding in the dock causes launch errors, need to figure this out
+#
+# - name: Determine if iTerm is already configured to be hidden in dock
+#   shell: /usr/libexec/PlistBuddy /Applications/iTerm.app/Contents/Info.plist -c print | grep "LSUIElement = true"
+#   ignore_errors: yes
+#   register: iterm_hidden
+#   failed_when: "'error' in iterm_hidden.stderr"
+#   changed_when: false
+#   tags: [ iterm ]
+
+# - name: Hide iTerm icon in dock
+#   shell: /usr/libexec/PlistBuddy -c 'Add :LSUIElement bool true' /Applications/iTerm.app/Contents/Info.plist
+#   when: iterm_hidden.stdout == ""
+#   tags: [ iterm ]

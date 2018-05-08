@@ -1,0 +1,27 @@
+---
+
+# TODO: make a check to see if ~/Library/Application Support/com.imobie.AnyTrans exists first before running this task
+- name: Make sure that AnyTrans has been opened at least once
+  shell: >
+    open -a AnyTrans && sleep 4 && osascript -e 'quit app "AnyTrans"'
+  changed_when: false
+
+- name: See if we have AnyTrans license entered already
+  command: >
+    /usr/libexec/PListBuddy -c "print :RegisteredCode" ~/Library/Application\ Support/com.imobie.AnyTrans/AnyTrans/IMBSoftware-Info.plist
+  register: anytrans_existing_license
+  failed_when: "'error' in anytrans_existing_license.stderr"
+  changed_when: false
+  tags: [ anytrans ]
+
+- name: Set AnyTrans License
+  command: >
+    /usr/libexec/PListBuddy -c "Set :RegisteredCode {{ anytrans_licensecode }}" ~/Library/Application\ Support/com.imobie.AnyTrans/AnyTrans/IMBSoftware-Info.plist
+  when: "anytrans_existing_license.stdout != anytrans_licensecode"
+  tags: [ anytrans ]
+
+- name: Set AnyTrans Registered
+  command: >
+    /usr/libexec/PListBuddy -c "Set :IsRegistered true" ~/Library/Application\ Support/com.imobie.AnyTrans/AnyTrans/IMBSoftware-Info.plist
+  #when: "anytrans_existing_license.stdout != anytrans_licensecode"
+  tags: [ anytrans ]

@@ -1,0 +1,15 @@
+---
+
+- name: See if we have Audio Hijack license entered already
+  command: >
+    /usr/libexec/PListBuddy -c "print :registrationInfo:Code" ~/Library/Preferences/com.rogueamoeba.audiohijack3.plist
+  register: audiohijack_existing_license
+  failed_when: "'error' in audiohijack_existing_license.stderr"
+  changed_when: false
+  tags: [ audiohijack ]
+
+- name: Set Audio Hijack Registration Info
+  command: >
+    defaults write com.rogueamoeba.audiohijack3 registrationInfo -array-add '<dict><key>Code</key><string>{{ audiohijack_licensecode }}</string><key>Name</key><string>Patrick Force</string></dict>'
+  when: "audiohijack_existing_license.stdout != audiohijack_licensecode"
+  tags: [ audiohijack ]

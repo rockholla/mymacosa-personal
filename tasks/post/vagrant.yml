@@ -1,0 +1,15 @@
+---
+
+- name: Get list of installed vagrant plugins
+  command: >
+    vagrant plugin list
+  register: installed_vagrant_plugins
+  changed_when: false
+
+- name: Install Vagrant plugins
+  command: >
+    vagrant plugin install {{ plugin }}
+  when: "plugin not in installed_vagrant_plugins.stdout"
+  with_items: "{{ vagrant_plugins }}"
+  loop_control:
+    loop_var: plugin

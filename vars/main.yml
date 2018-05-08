@@ -1,0 +1,119 @@
+---
+
+homebrew_taps:
+  - homebrew/gui
+  - caskroom/versions
+  - homebrew/php
+  - sra/rancher
+  - azure/functions
+homebrew_packages:
+  - wget
+  - duti
+  - git
+  - ack
+  - mysql
+  - awscli
+  - composer
+  - git-lfs
+  - arping
+  - mongo
+  - packer
+  - graphviz
+  - git-crypt
+  - amazon-ecs-cli
+  - rancher-cli
+  - md5sha1sum
+  - jq
+  - ioping
+  - bfg
+  - nmap
+  - openconnect
+  - heroku/brew/heroku
+  - azure-functions-core-tools
+  - azure-cli
+  - certbot
+homebrew_cask_apps:
+  - atom
+  - google-chrome
+  - mailplane
+  - firefox
+  - iterm2
+  - pandora
+  - vlc
+  - meld
+  - reggy
+  - sequel-pro
+  - psequel
+  - slack
+  - skype
+  - virtualbox
+  - virtualbox-extension-pack
+  - vagrant
+  - gimp
+  - the-unarchiver
+  - evernote
+  - android-studio
+  - 1password
+  - zoomus
+  - gotomeeting
+  - gpgtools
+  - audio-hijack
+  - minikube
+  - anytrans
+
+account:
+  avatar_path: "{{ playbook_dir }}/user/files/avatar.jpg"
+
+aws_cli_profiles: "{{ my_aws_profiles.default }}"
+
+default_browser: chrome
+
+python_default_version: 2.7.14
+python_versions:
+  - stable
+  - 2.7.14
+python_packages:
+  - configparser
+  - boto
+  - boto3
+  - ruamel.yaml
+
+ruby_default_version: stable
+ruby_versions:
+  - stable
+  - 2.4.2
+
+node_default_version: stable
+node_versions:
+  - stable
+  - 8.9.4
+  - 7.10.1
+node_packages:
+  - depcheck
+  - create-react-app
+  - create-react-native-app
+  - exp
+  - vue-cli
+
+go_default_version: stable
+go_versions:
+  - stable
+
+vagrant_plugins:
+  - vagrant-hostsupdater
+  - vagrant-bindfs
+  - vagrant-triggers
+  - aws-sdk
+
+terraform_default_version: stable
+terraform_versions:
+  - stable
+
+atom_packages:
+  - language-terraform
+  - language-pug
+
+ubuntu_tower_primary_network_interface: enp5s0
+ubuntu_tower_network: 192.168.133
+ubuntu_tower_ip: "{{ ubuntu_tower_network }}.200"
+ubuntu_tower_user: "{{ ansible_user_id }}"

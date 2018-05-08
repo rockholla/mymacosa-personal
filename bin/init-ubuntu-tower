@@ -1,0 +1,38 @@
+#!/bin/bash
+
+read -p "Enter the ubuntu-tower user name: " ubuntu_tower_username
+read -s -p "Enter the ubuntu-tower user password: " ubuntu_tower_password
+echo ""
+read -p "Enter your primary public SSH key (found in user/vars/vault.yml): " pub_key
+
+ubuntu_tower_ip=""
+for ip in $(arp -a | awk '{print $2}' | tr -d '()'); do
+  if ping -i 1 -c 1 $ip &> /dev/null; then
+    echo "Able to reach $ip, seeing if it's ubuntu-tower, please enter a password attempt for $ip"
+    ssh_attempt_output=$(ssh -o StrictHostKeyChecking=no $ubuntu_tower_username@$ip hostname 2>&1)
+    echo "$ssh_attempt_output"
+    if [[ "$ssh_attempt_output" =~ ".*ubuntu\-tower.*" ]]; then
+      echo "found ubuntu-tower at $ip"
+      ubuntu_tower_ip="$ip"
+      break
+    fi
+  fi
+done
+
+exit
+
+echo "attempting connection for ${ubuntu_tower_username}@${ubuntu_tower_ip}"
+ssh "${ubuntu_tower_username}@${ubuntu_tower_ip}" << EOF
+  echo "Authorizing SSH key for ${ubuntu_tower_username} log in"
+  mkdir -p /home/$ubuntu_tower_username/.ssh
+  chmod 0700 /home/$ubuntu_tower_username/.ssh
+  echo "${pub_key}" > /home/$ubuntu_tower_username/.ssh/authorized_keys
+  chmod 0644 /home/$ubuntu_tower_username/.ssh/authorized_keys
+  echo "$ubuntu_tower_password" | sudo -S ln -sf /usr/bin/python3 /usr/bin/python
+  if ! echo "$ubuntu_tower_password" | sudo -S cat /etc/sudoers | grep ^"$ubuntu_tower_username"; then
+    echo ""
+    echo "Creating passwordless sudo for ${ubuntu_tower_username}"
+    echo "$ubuntu_tower_password" | sudo -S sh -c "echo \"$ubuntu_tower_username ALL=(ALL) NOPASSWD: ALL\" >> /etc/sudoers"
+  fi
+EOF
+echo ""

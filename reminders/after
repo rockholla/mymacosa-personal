@@ -1,0 +1,29 @@
+------------------------------------------------------------------------------------------
+
+  homebrew packages will not be upgraded automatically, so you'll need to do that manually:
+    `brew upgrade [package]` or `brew upgrade` to upgrade all packages
+
+  Some other things that still need to be done manually:
+
+    - Organize the finder sidebar favorites
+    - Setup Mailplane accounts
+    - Setup Google internet account(s)
+    - Add Slack accounts
+    - iTunes setup
+
+  Some notes on what to install on iPhone:
+
+    - Chase
+    - Google Authenticator
+    - 1Password
+    - Slack
+    - Evernote
+
+  Pythian
+
+    - For the ESET install, please file a service desk ticket for pushing the ESET Endpoint
+    Antivirus to my machine after running EraAgentInstaller.sh
+    - Couchsurfing VPN: https://github.com/Couchsurfing/tenderizer/wiki/OpenVPN
+    - .NET Core SDK -> https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.105-macos-x64-installer
+
+------------------------------------------------------------------------------------------

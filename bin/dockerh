@@ -1,0 +1,29 @@
+#!/bin/bash
+
+case "$1" in
+  kill-all)
+    docker rm -f $(docker ps -a -q)
+    ;;
+  kill-exited)
+    docker rm $(docker ps -a -f status=exited -q)
+    ;;
+  clean-images)
+    docker rmi $(docker images -f "dangling=true" -q)
+    ;;
+  env)
+    echo "If the environment switch doesn't work, remember to prefix the command with '.'"
+    if [ "$2" == "docker-for-mac" ]; then
+      echo "Switching Docker environment to Docker for Mac"
+      unset ${!DOCKER_*}
+    elif [ "$2" == "docker-tower" ]; then
+      echo "Switching Docker environment to docker-tower"
+      eval $(docker-machine env docker-tower)
+    else
+      echo "invalid docker env $2"
+      exit 1
+    fi
+    ;;
+  *)
+    echo $"Usage: dockerh [kill-all|kill-exited|clean-images|env(docker-for-mac|docker-tower)]"
+    exit 1
+esac

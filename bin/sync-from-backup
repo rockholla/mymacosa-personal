@@ -1,0 +1,7 @@
+#!/bin/bash
+
+rsync -avz /Volumes/backup/Backups.backupdb/patrickforce-macbook/Latest/Main/Users/patrickforce/Workspace/ ~/Workspace/ &
+rsync -avz /Volumes/backup/Backups.backupdb/patrickforce-macbook/Latest/Main/Users/patrickforce/Desktop/ ~/Desktop/ &
+rsync -avz /Volumes/backup/Backups.backupdb/patrickforce-macbook/Latest/Main/Users/patrickforce/Music/ ~/Music/ &
+rsync -avz /Volumes/backup/Backups.backupdb/patrickforce-macbook/Latest/Main/Users/patrickforce/.vagrant.d/boxes/ ~/.vagrant.d/boxes/ &
+wait

@@ -1,0 +1,19 @@
+---
+- name: Ensure the customized Atom config.cson file is in place
+  copy:
+    src: "{{ playbook_dir }}/user/files/atom-config.cson"
+    dest: ~/.atom/config.cson
+    mode: 0644
+
+- name: Ensure the customized Atom styles.less file is in place
+  copy:
+    src: "{{ playbook_dir }}/user/files/atom-styles.less"
+    dest: ~/.atom/styles.less
+    mode: 0644
+
+- name: Install atom packages
+  shell: >
+    (apm list | grep {{ item }}) || (apm install {{ item }})
+  register: apm_install
+  changed_when: "'Installing' in apm_install.stdout"
+  with_items: "{{ atom_packages }}"

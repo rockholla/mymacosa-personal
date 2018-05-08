@@ -1,0 +1,155 @@
+---
+- name: The Ubuntu Tower Playbook
+  hosts: ubuntu-tower
+  remote_user:
+  become: yes
+  tags: [ ubuntu-tower, docker ]
+
+  pre_tasks:
+
+    - name: Include user-supplied variables
+      include_vars:
+        dir: "{{ playbook_dir }}/../vars"
+        ignore_files: [ ".keep", ".DS_Store" ]
+      tags: [ always ]
+
+  tasks:
+    - name: Update and upgrade apt
+      apt: update_cache=yes upgrade=dist cache_valid_time=3600
+
+    - name: See if remote login is enabled on local machine
+      become: yes
+      shell: >
+        systemsetup -getremotelogin
+      changed_when: false
+      register: remote_login_enabled
+      args:
+        warn: no
+      delegate_to: 127.0.0.1
+
+    - name: Enable remote login on local machine
+      become: yes
+      shell: >
+        systemsetup -setremotelogin on
+      when: "remote_login_enabled.stdout == 'Remote Login: Off'"
+      args:
+        warn: no
+      delegate_to: 127.0.0.1
+
+    - name: Ensure ssh directories exist
+      file:
+        path: "{{ item.path }}/.ssh"
+        state: directory
+        mode: 0700
+        owner: "{{ item.owner }}"
+        group: "{{ item.owner }}"
+      with_items:
+        - path: /root
+          owner: root
+        - path: "/home/{{ ubuntu_tower_user }}"
+          owner: "{{ ubuntu_tower_user }}"
+
+    - name: Ensure ssh config is in place
+      copy:
+        content: |
+          Host *
+            StrictHostKeyChecking no
+            ServerAliveInterval 60
+        dest: "{{ item.path }}/.ssh/config"
+        mode: 0644
+        owner: "{{ item.owner }}"
+        group: "{{ item.owner }}"
+      with_items:
+        - path: /root
+          owner: root
+        - path: "/home/{{ ubuntu_tower_user }}"
+          owner: "{{ ubuntu_tower_user }}"
+
+    - name: Ensure primary id_rsa key is on the ubuntu-tower machine
+      copy:
+        content: "{{ item[0].private }}"
+        dest: "{{ item[1].path }}/.ssh/id_rsa"
+        mode: 0600
+        owner: "{{ item[1].owner }}"
+        group: "{{ item[1].owner }}"
+      when: "item[0].name == 'id_rsa'"
+      with_nested:
+        - "{{ ssh['keys'] }}"
+        -
+          - path: /root
+            owner: root
+          - path: "/home/{{ ubuntu_tower_user }}"
+            owner: "{{ ubuntu_tower_user }}"
+
+    - name: Ensure primary id_rsa pub key is an authorized key on the local machine
+      copy:
+        content: "{{ item.public }}"
+        dest: /Users/patrickforce/.ssh/authorized_keys
+        mode: 0644
+        owner: patrickforce
+        group: staff
+      when: "item.name == 'id_rsa'"
+      with_items: "{{ ssh['keys'] }}"
+      delegate_to: 127.0.0.1
+
+    - name: Get status of ubuntu-tower as a docker machine
+      become: no
+      shell: docker-machine ls --format {% raw %}'{{.Name}}'{% endraw %} | grep ^ubuntu\-tower$ | cat
+      register: ubuntu_tower_docker_status
+      changed_when: false
+      delegate_to: 127.0.0.1
+
+    - name: Create ubuntu-tower as a docker-machine
+      become: no
+      shell: >
+        docker-machine create --driver generic \
+                              --generic-ip-address "$(resolveip -s ubuntu-tower)" \
+                              --generic-ssh-user ubuntu-tower \
+                              ubuntu-tower
+      when: (ubuntu_tower_docker_status.stdout == '') and (ubuntu_tower_docker_status.stderr == '')
+      delegate_to: 127.0.0.1
+
+    - name: Ensure sshfs is installed
+      apt:
+        name: sshfs
+        state: present
+
+    - name: Get state of patrickforce-macbook mount
+      stat:
+        path: /Users/patrickforce
+      register: users_patrickforce_path
+
+    - name: Ensure /Users directory exists on ubuntu-tower
+      file:
+        path: /Users/patrickforce
+        state: directory
+        owner: "{{ ubuntu_tower_user }}"
+        group: "{{ ubuntu_tower_user }}"
+      register: user_path
+      when: not users_patrickforce_path.stat.exists
+
+    - name: Ensure user_allow_other option is enabled for fuse
+      lineinfile:
+        line: user_allow_other
+        regexp: '#?\s?user_allow_other\s?'
+        dest: /etc/fuse.conf
+
+    - name: Ensure patrickforce-macbook mount script is in place
+      copy:
+        src: "{{ playbook_dir }}/../files/mount-patrickforce-macbook.sh"
+        dest: "/home/{{ ubuntu_tower_user }}/mount-patrickforce-macbook.sh"
+        mode: u=rwx,g=rx,o=rx
+        owner: "{{ ubuntu_tower_user }}"
+        group: "{{ ubuntu_tower_user }}"
+
+    - name: Ensure crontab entry is in place for keeping mount persistent
+      cron:
+        name: persistent mount
+        job: "/home/{{ ubuntu_tower_user }}/mount-patrickforce-macbook.sh"
+        minute: "*"
+        user: "{{ ubuntu_tower_user }}"
+
+  handlers:
+    - name: restart networking
+      shell: >
+        ip addr flush {{ ubuntu_tower_primary_network_interface }} && systemctl restart networking.service

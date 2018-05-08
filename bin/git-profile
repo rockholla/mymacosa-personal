@@ -1,0 +1,17 @@
+#!/bin/bash
+
+git_profile="$1"
+git_command="${@:2}"
+
+if [ -z "$git_profile" ]; then
+  echo "No git profile supplied"
+  exit 1
+fi
+if [ -z "$git_command" ]; then
+  echo "No git command supplied"
+  exit 1
+fi
+
+git_command="${git_command/github.com/${git_profile}.github.com}"
+
+git $git_command

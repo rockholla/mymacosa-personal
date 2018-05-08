@@ -1,0 +1,7 @@
+---
+
+- name: Ensure Browsers app directory exists
+  file:
+    path: /Applications/Browsers
+    state: directory
+  tags: [ browsers ]

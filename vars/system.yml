@@ -1,0 +1,108 @@
+---
+
+system_defaults:
+
+  - domain: "NSGlobalDomain"
+    values:
+      # Keyboard key repeat rates
+      InitialKeyRepeat: 15
+      KeyRepeat: 2
+      # Always show file extensions
+      AppleShowAllExtensions: true
+      # Expand save dialog by default
+      NSNavPanelExpandedStateForSaveMode: true
+      NSNavPanelExpandedStateForSaveMode2: true
+      # Expand print panel by default
+      PMPrintingExpandedStateForPrint: true
+      PMPrintingExpandedStateForPrint2: true
+      # Save to disk, not iCloud by default
+      NSDocumentSaveNewDocumentsToCloud: false
+
+  - domain: "com.apple.finder"
+    values:
+      # Show hidden files
+      AppleShowAllFiles: true
+      # Open new windows in column view
+      FXPreferredViewStyle: clmv
+      # Always open new window in home directory
+      NewWindowTarget: PfHm
+      # Don't show hard drives or removable media on desktop
+      ShowExternalHardDrivesOnDesktop: false
+      ShowHardDrivesOnDesktop: false
+      ShowMountedServersOnDesktop: false
+      ShowRemovableMediaOnDesktop: false
+      # Turn off correct spelling automatically
+      NSAutomaticSpellingCorrectionEnabled: false
+      # Disable the warning when changing a file extension
+      FXEnableExtensionChangeWarning: false
+
+  - domain: "com.apple.LaunchServices"
+    values:
+      # Disable the 'Are you sure you want to open this application?' dialog
+      LSQuarantine: false
+
+  - domain: "com.apple.dock"
+    values:
+      # Set the icon size of dock items
+      tilesize: 37
+      # Enable magnificationn of icons
+      magnification: true
+      largesize: 55
+      # don't autohide
+      autohide: false
+
+  - domain: "com.apple.screensaver"
+    values:
+      # ask for password only after screen saver is active for at least 15 seconds
+      askForPassword: 1
+      askForPasswordDelay: 15
+
+  - domain: "com.apple.menuextra.battery"
+    values:
+      ShowPercent: "YES"
+
+power_management:
+  sleep: 0
+  displaysleep: 20
+  disksleep: 120
+
+trackpad:
+  single_click: false
+  secondary_click: "two-fingers" # one of: false, "two-fingers", "bottom-right", or "bottom-left"
+
+menubar:
+  - "TimeMachine"
+  - "Bluetooth"
+  - "AirPort"
+  - "Battery"
+  - "Clock"
+
+dock:
+  applications:
+    - "/Applications/App Store.app"
+    - "/Applications/Launchpad.app"
+    - "/Applications/ESET Endpoint Antivirus.app"
+    - "/Applications/iTerm.app"
+    - "/Applications/1Password 6.app"
+    - "/Applications/VirtualBox.app"
+    - "/Applications/Evernote.app"
+    - "/Applications/GIMP.app"
+    - "/Applications/Messages.app"
+    - "/Applications/Google Chrome.app"
+    - "/Applications/Mailplane 3.app"
+    - "/Applications/Slack.app"
+    - "/Applications/Skype.app"
+    - "/Applications/Atom.app"
+    - "/Applications/Reggy.app"
+    - "/Applications/Sequel Pro.app"
+    - "/Applications/PSequel.app"
+    - "/Applications/Xcode.app"
+    - "/Applications/iTunes.app"
+    - "/Applications/Pandora.app"
+    - "/Applications/VLC.app"
+    - "/Applications/System Preferences.app"
+  files:
+    - path: "/Applications/Browsers"
+    - path: "/Users/{{ ansible_user_id }}/Downloads"
+      arrangement: 3
+      showas: 1

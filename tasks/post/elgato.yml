@@ -1,0 +1,20 @@
+---
+
+- name: Check to see if Elgato Dock Utility is installed
+  stat:
+    path: "/Applications/Elgato Thunderbolt Dock Utility.app"
+  register: elgato_dock_utility
+  tags: [ elgato ]
+
+- name: Download Elgato dock utility
+  get_url:
+    url: http://updates.elgato.com/autoupdate/download_tbutil.php
+    dest: ~/Downloads/elgato-install.pkg
+  when: not elgato_dock_utility.stat.exists
+  tags: [ elgato ]
+
+- name: Start Elgato installation process
+  command: >
+    open ~/Downloads/elgato-install.pkg
+  when: not elgato_dock_utility.stat.exists
+  tags: [ elgato ]

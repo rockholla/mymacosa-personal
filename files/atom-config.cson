@@ -1,0 +1,15 @@
+"*":
+  core:
+    telemetryConsent: "no"
+  editor:
+    showIndentGuide: true
+    showInvisibles: true
+    tabLength: 2
+    showLineNumbers: true
+  "exception-reporting":
+    userId: "7e1d5392-a7cd-4e0e-97c2-9899084b1982"
+  welcome:
+    showOnStartup: false
+".python.source":
+  editor:
+    tabLength: 2

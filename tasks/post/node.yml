@@ -1,0 +1,16 @@
+---
+
+- name: See if yarn is installed
+  shell: >
+    which yarn | cat
+  register: yarn_path
+  changed_when: false
+
+- name: Ensure yarn is installed
+  shell: >
+    brew install yarn --without-node
+  when: yarn_path.stdout == ''
+  register: yarn_install
+  changed_when: "'already installed' not in yarn_install.stderr"
+  args:
+    warn: no

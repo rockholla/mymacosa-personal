@@ -1,0 +1,36 @@
+---
+
+- name: Check for Mailplane as a login item
+  command: >
+    osascript -e 'tell application "System Events" to get the properties of every login item whose name is "Mailplane 3"'
+  register: mailplane_loginitem
+  failed_when: "'error' in mailplane_loginitem.stderr"
+  changed_when: false
+  tags: [ mailplane ]
+
+# TODO: if we change one of the parameters in here, e.g. change hidden to false, it won't be changed if there's already an entry per check above
+- name: Open Mailplane at login
+  command: >
+    {{ playbook_dir }}/bin/macosa_addloginitem "Mailplane 3" "/Applications/Mailplane 3.app" false
+  when: mailplane_loginitem.stdout == ""
+  tags: [ mailplane ]
+
+- name: Check for Mailplane License Code
+  command: >
+    defaults read com.mailplaneapp.Mailplane3 LicenseCode
+  register: mailplane_existing_license
+  failed_when: "'error' in mailplane_existing_license.stderr"
+  changed_when: false
+  tags: [ mailplane ]
+
+- name: Set Mailplane License Owner
+  command: >
+    defaults write com.mailplaneapp.Mailplane3 LicenseOwner "Patrick Force"
+  when: "mailplane_existing_license.stdout != mailplane_licensecode"
+  tags: [ mailplane ]
+
+- name: Install Mailplane License Code
+  command: >
+    defaults write com.mailplaneapp.Mailplane3 LicenseCode "{{ mailplane_licensecode }}"
+  when: "mailplane_existing_license.stdout != mailplane_licensecode"
+  tags: [ mailplane ]

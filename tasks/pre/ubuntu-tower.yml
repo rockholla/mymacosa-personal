@@ -1,0 +1,8 @@
+---
+
+- name: Ensure the ubuntu-tower record is in the hosts file
+  become: yes
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^.*ubuntu\-tower$'
+    line: "{{ ubuntu_tower_ip }} ubuntu-tower"

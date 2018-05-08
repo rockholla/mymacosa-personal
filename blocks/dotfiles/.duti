@@ -1,0 +1,19 @@
+# Run this file with `duti -v [path to this file]`
+#
+# @author Patrick Force
+# See https://developer.apple.com/library/mac/documentation/Miscellaneous/Reference/UTIRef/Articles/System-DeclaredUniformTypeIdentifiers.html
+# for info on UTIs
+# Also see http://duti.org/duti.1.html for documentation on duti
+#
+# Note that we are not setting default browser stuff here, this is done in another area of ansible provisioning b/c doesn't seem to work w/ duti
+#
+# bundle id         UTI/ext/MIMEtype    role
+
+com.github.atom     public.script       all
+com.github.atom     public.text         all
+com.github.atom     public.source-code  all
+org.videolan.vlc    public.movie        all
+
+# bundle id                       URL scheme
+
+com.mailplaneapp.mailplane3       mailto

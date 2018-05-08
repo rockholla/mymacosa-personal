@@ -1,0 +1,6 @@
+# Configuration for ack command line search tool
+
+--ignore-dir=.Trashes
+--ignore-dir=.Spotlight-V100
+--ignore-dir=.fseventsd
+--ignore-dir=.TemporaryItems

@@ -1,0 +1,6 @@
+---
+
+projects:
+  coursearc:
+    aws_cli_profiles: "{{ my_aws_profiles.coursearc }}"
+    active: yes
