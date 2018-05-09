@@ -25,9 +25,17 @@
   changed_when: "'not changed' not in gpg_import_private_key.stderr"
   tags: [ gpg ]
 
-- name: Import gpg private key
+- name: Import gpg public key
   shell: >
     echo "{{ gpg.public_key }}" > /tmp/gpg-public-key && gpg --import /tmp/gpg-public-key; rm /tmp/gpg-public-key
-  register: gpg_import_private_key
-  changed_when: "'not changed' not in gpg_import_private_key.stderr"
+  register: gpg_import_public_key
+  changed_when: "'not changed' not in gpg_import_public_key.stderr"
+  tags: [ gpg ]
+
+- name: Import other gpg keys
+  shell: >
+    echo "{{ item }}" > /tmp/gpg-public-key && gpg --import /tmp/gpg-public-key; rm /tmp/gpg-public-key
+  register: gpg_import_other_public_key
+  changed_when: "'not changed' not in gpg_import_other_public_key.stderr"
+  with_items: "{{ gpg.other_public_keys }}"
   tags: [ gpg ]
