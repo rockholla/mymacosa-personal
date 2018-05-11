@@ -113,7 +113,7 @@ atom_packages:
   - language-terraform
   - language-pug
 
-anytrans_enabled: no
+anytrans_enabled: yes
 
 ubuntu_tower_primary_network_interface: enp5s0
 ubuntu_tower_network: 192.168.133
