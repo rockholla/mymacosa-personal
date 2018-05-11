@@ -1,9 +1,7 @@
 ---
 
 homebrew_taps:
-  - homebrew/gui
   - caskroom/versions
-  - homebrew/php
   - sra/rancher
   - azure/functions
 homebrew_packages:
