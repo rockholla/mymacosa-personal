@@ -2,7 +2,7 @@
 
 - name: See if we have Audio Hijack license entered already
   command: >
-    /usr/libexec/PListBuddy -c "print :registrationInfo:Code" ~/Library/Preferences/com.rogueamoeba.audiohijack3.plist
+    /usr/libexec/PlistBuddy -c "print :registrationInfo:Code" ~/Library/Preferences/com.rogueamoeba.audiohijack3.plist
   register: audiohijack_existing_license
   failed_when: "'error' in audiohijack_existing_license.stderr"
   changed_when: false
