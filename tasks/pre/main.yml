@@ -7,6 +7,6 @@
   tags: [ browsers ]
   
 - name: Ensure Java is installed
-  homebrew_cask: >
+  homebrew_cask:
     name: java
     state: present
