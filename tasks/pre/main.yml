@@ -5,3 +5,8 @@
     path: /Applications/Browsers
     state: directory
   tags: [ browsers ]
+  
+- name: Ensure Java is installed
+  homebrew_cask: >
+    name: java
+    state: present
