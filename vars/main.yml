@@ -45,6 +45,8 @@ homebrew_cask_apps:
   - psequel
   - slack
   - skype
+  - virtualbox
+  - virtualbox-extension-pack
   - vagrant
   - gimp
   - the-unarchiver
