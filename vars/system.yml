@@ -108,8 +108,8 @@ system_defaults:
   - domain: "com.apple.menuextra.battery"
     values:
       - key: ShowPercent
-      - type: string
-      - value: "YES"
+        type: string
+        value: "YES"
 
 power_management:
   sleep: 0
