@@ -10,3 +10,10 @@
   homebrew_cask:
     name: java
     state: present
+    
+- name: Disable Gatekeeper for macOSa
+  shell: >
+    sudo spctl --master-disable
+  changed_when: false
+  args:
+    warn: no
