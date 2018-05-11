@@ -45,8 +45,6 @@ homebrew_cask_apps:
   - psequel
   - slack
   - skype
-  - virtualbox
-  - virtualbox-extension-pack
   - vagrant
   - gimp
   - the-unarchiver
@@ -54,8 +52,7 @@ homebrew_cask_apps:
   - android-studio
   - 1password
   - zoomus
-  - gotomeeting
-  - gpgtools
+  - gpg-suite
   - audio-hijack
   - minikube
   - anytrans
