@@ -41,7 +41,7 @@ system_defaults:
         type: boolean
         value: true
       # Open new windows in column view
-      - key: FXPreferredViewStyle: 
+      - key: FXPreferredViewStyle
         type: string
         value: clmv
       # Always open new window in home directory
