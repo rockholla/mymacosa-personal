@@ -1,4 +1,9 @@
 ---
+- name: Ensure .atom directory exists in user home
+  file:
+    path: ~/.atom
+    state: directory
+    
 - name: Ensure the customized Atom config.cson file is in place
   copy:
     src: "{{ playbook_dir }}/user/files/atom-config.cson"
