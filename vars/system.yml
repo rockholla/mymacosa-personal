@@ -5,61 +5,111 @@ system_defaults:
   - domain: "NSGlobalDomain"
     values:
       # Keyboard key repeat rates
-      InitialKeyRepeat: 15
-      KeyRepeat: 2
+      - key: InitialKeyRepeat
+        type: integer
+        value: 15
+      - key: KeyRepeat
+        type: integer
+        value: 2
       # Always show file extensions
-      AppleShowAllExtensions: true
+      - key: AppleShowAllExtensions
+        type: boolean
+        value: true
       # Expand save dialog by default
-      NSNavPanelExpandedStateForSaveMode: true
-      NSNavPanelExpandedStateForSaveMode2: true
+      - key: NSNavPanelExpandedStateForSaveMode
+        type: boolean
+        value: true
+      - key: NSNavPanelExpandedStateForSaveMode2
+        type: boolean
+        value: true
       # Expand print panel by default
-      PMPrintingExpandedStateForPrint: true
-      PMPrintingExpandedStateForPrint2: true
+      - key: PMPrintingExpandedStateForPrint
+        type: boolean
+        value: true
+      - key: PMPrintingExpandedStateForPrint2
+        type: boolean
+        value: true
       # Save to disk, not iCloud by default
-      NSDocumentSaveNewDocumentsToCloud: false
+      - key: NSDocumentSaveNewDocumentsToCloud
+        type: boolean
+        value: false
 
   - domain: "com.apple.finder"
     values:
       # Show hidden files
-      AppleShowAllFiles: true
+      - key: AppleShowAllFiles
+        type: boolean
+        value: true
       # Open new windows in column view
-      FXPreferredViewStyle: clmv
+      - key: FXPreferredViewStyle: 
+        type: string
+        value: clmv
       # Always open new window in home directory
-      NewWindowTarget: PfHm
+      - key: NewWindowTarget
+        type: string
+        value: PfHm
       # Don't show hard drives or removable media on desktop
-      ShowExternalHardDrivesOnDesktop: false
-      ShowHardDrivesOnDesktop: false
-      ShowMountedServersOnDesktop: false
-      ShowRemovableMediaOnDesktop: false
+      - key: ShowExternalHardDrivesOnDesktop
+        type: boolean
+        value: false
+      - key: ShowHardDrivesOnDesktop
+        type: boolean
+        value: false
+      - key: ShowMountedServersOnDesktop
+        type: boolean
+        value: false
+      - key: ShowRemovableMediaOnDesktop
+        type: boolean
+        value: false
       # Turn off correct spelling automatically
-      NSAutomaticSpellingCorrectionEnabled: false
+      - key: NSAutomaticSpellingCorrectionEnabled
+        type: boolean
+        value: false
       # Disable the warning when changing a file extension
-      FXEnableExtensionChangeWarning: false
+      - key: FXEnableExtensionChangeWarning
+        type: boolean
+        value: false
 
   - domain: "com.apple.LaunchServices"
     values:
       # Disable the 'Are you sure you want to open this application?' dialog
-      LSQuarantine: false
+      - key: LSQuarantine
+        type: boolean
+        value: false
 
   - domain: "com.apple.dock"
     values:
       # Set the icon size of dock items
-      tilesize: 37
+      - key: tilesize
+        type: integer
+        value: 37
       # Enable magnificationn of icons
-      magnification: true
-      largesize: 55
+      - key: magnification
+        type: boolean
+        value: true
+      - key: largesize
+        type: integer
+        value: 55
       # don't autohide
-      autohide: false
+      - key: autohide
+        type: boolean
+        value: false
 
   - domain: "com.apple.screensaver"
     values:
       # ask for password only after screen saver is active for at least 15 seconds
-      askForPassword: 1
-      askForPasswordDelay: 15
+      - key: askForPassword
+        type: integer
+        value: 1
+      - key: askForPasswordDelay
+        type: integer
+        value: 15
 
   - domain: "com.apple.menuextra.battery"
     values:
-      ShowPercent: "YES"
+      - key: ShowPercent
+      - type: string
+      - value: "YES"
 
 power_management:
   sleep: 0
