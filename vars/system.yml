@@ -137,6 +137,7 @@ dock:
     - "/Applications/VirtualBox.app"
     - "/Applications/Evernote.app"
     - "/Applications/GIMP.app"
+    - "/Applications/Diagrammix.app"
     - "/Applications/Messages.app"
     - "/Applications/Google Chrome.app"
     - "/Applications/Mailplane 3.app"
