@@ -10,7 +10,9 @@
     - Setup Google internet account(s)
     - Add Slack accounts
     - iTunes setup
-    - AnyTrans license will need to be manually unbound by contacting their support, 
+    - AppStore manual installs:
+        - Diagrammix
+    - AnyTrans license will need to be manually unbound by contacting their support,
       additionally the license activation doesn't seem to work automated
 
   Some notes on what to install on iPhone:
