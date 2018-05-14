@@ -26,8 +26,8 @@
   Pythian
 
     - For the ESET install, please file a service desk ticket for pushing the ESET Endpoint
-    Antivirus to my machine after running EraAgentInstaller.sh
+      Antivirus to my machine after running EraAgentInstaller.sh
     - Couchsurfing VPN: https://github.com/Couchsurfing/tenderizer/wiki/OpenVPN
-    - .NET Core SDK -> https://www.microsoft.com/net/download/thank-you/dotnet-sdk-2.1.105-macos-x64-installer
+    - To run Azure functions locally: https://docs.microsoft.com/en-us/azure/azure-functions/functions-run-local
 
 ------------------------------------------------------------------------------------------
