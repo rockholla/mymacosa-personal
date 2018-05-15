@@ -134,6 +134,7 @@ dock:
     - "/Applications/ESET Endpoint Antivirus.app"
     - "/Applications/iTerm.app"
     - "/Applications/1Password 6.app"
+    - "/Applications/Authy.app"
     - "/Applications/VirtualBox.app"
     - "/Applications/Evernote.app"
     - "/Applications/GIMP.app"
