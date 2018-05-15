@@ -97,6 +97,7 @@ system_defaults:
 
   - domain: "com.apple.screensaver"
     values:
+      # TODO: no longer works with High Sierra, other defaults need to be set in security
       # ask for password only after screen saver is active for at least 15 seconds
       - key: askForPassword
         type: integer
