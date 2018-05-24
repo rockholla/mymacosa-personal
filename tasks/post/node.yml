@@ -1,10 +1,35 @@
 ---
 
+- name: See if the node-build plugin is installed for nodenv
+  stat:
+    path: ~/.nodenv/plugins/node-build
+  register: nodenv_node_build_plugin
+  tags: [ node ]
+
+- name: Install the node-build plugin for nodenv
+  shell: >
+    git clone https://github.com/nodenv/node-build.git ~/.nodenv/plugins/node-build
+  when: not nodenv_node_build_plugin.stat.exists
+  tags: [ node ]
+
+- name: See if the node-build-update-defs plugin is installed for nodenv
+  stat:
+    path: ~/.nodenv/plugins/node-build-update-defs
+  register: nodenv_node_build_update_defs_plugin
+  tags: [ node ]
+
+- name: Install the node-build plugin for nodenv
+  shell: >
+    git clone https://github.com/nodenv/node-build-update-defs.git ~/.nodenv/plugins/node-build-update-defs
+  when: not nodenv_node_build_update_defs_plugin.stat.exists
+  tags: [ node ]
+
 - name: See if yarn is installed
   shell: >
     which yarn | cat
   register: yarn_path
   changed_when: false
+  tags: [ node ]
 
 - name: Ensure yarn is installed
   shell: >
@@ -14,3 +39,4 @@
   changed_when: "'already installed' not in yarn_install.stderr"
   args:
     warn: no
+  tags: [ node ]
