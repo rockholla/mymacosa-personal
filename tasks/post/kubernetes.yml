@@ -1,0 +1,19 @@
+---
+
+- name: See if the hyperkit driver is installed
+  stat:
+    path: /usr/local/bin/docker-machine-driver-hyperkit
+  register: hyperkit_driver
+  tags: [ kubernetes, minikube ]
+
+- name: Download hyperkit driver
+  get_url:
+    url: https://storage.googleapis.com/minikube/releases/latest/docker-machine-driver-hyperkit
+    dest: /usr/local/bin
+    mode: "4755"
+    owner: root
+    group: wheel
+  when: not hyperkit_driver.stat.exists
+  become: yes
+  become_method: sudo
+  tags: [ kubernetes, minikube ]

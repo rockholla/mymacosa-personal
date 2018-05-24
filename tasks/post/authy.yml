@@ -1,0 +1,41 @@
+---
+
+- name: Check to see if Authy is installed
+  stat:
+    path: "/Applications/Authy Desktop.app"
+  register: authy_app
+  tags: [ authy ]
+
+- name: See if dmg is already downloaded
+  stat:
+    path: ~/Downloads/auth-installer.dmg
+  register: authy_dmg
+  tags: [ authy ]
+
+- name: Download Authy
+  get_url:
+    url: https://electron.authy.com/download?channel=stable&arch=x64&platform=darwin&version=latest&product=authy
+    dest: ~/Downloads/authy-installer.dmg
+  when: (not authy_dmg.stat.exists) and (not authy_app.stat.exists)
+  tags: [ authy ]
+
+- name: Open the Authy installer image
+  shell: >
+    open -W ~/Downloads/authy-installer.dmg && find /Volumes/Authy* -name 'Authy Desktop.app'
+  register: authy_app_file_path
+  when: not authy_app.stat.exists
+  tags: [ authy ]
+
+- name: Copy the Authy desktop app to /Applications
+  command: >
+    cp -r "{{ authy_app_file_path.stdout }}" /Applications/
+  when: not authy_app.stat.exists
+  args:
+    warn: no
+  tags: [ authy ]
+
+- name: Unmount the Authy dmg installer and remove the Download
+  shell: >
+    hdiutil detach /Volumes/Authy* && rm ~/Downloads/authy-installer.dmg
+  when: not authy_app.stat.exists
+  tags: [ authy ]
