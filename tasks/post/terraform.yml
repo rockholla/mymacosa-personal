@@ -7,7 +7,7 @@
 
 - name: Install tfenv versions
   shell: >
-    tfenv install {{ 'latest' if item == 'stable' else item }}
+    tfenv install {{ 'latest' if item == 'latest' else item }}
   register: terraform_version_install
   changed_when: "'Installing' in terraform_version_install.stdout"
   with_items: "{{ terraform_versions }}"
@@ -19,7 +19,7 @@
   changed_when: false
 
 - set_fact:
-    _terraform_default_version: "{{ _terraform_latest_version.stdout|trim if terraform_default_version == 'stable' else terraform_default_version }}"
+    _terraform_default_version: "{{ _terraform_latest_version.stdout|trim if terraform_default_version == 'latest' else terraform_default_version }}"
 
 - name: Get the current global tfenv version
   shell: >

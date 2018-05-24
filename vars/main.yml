@@ -31,6 +31,7 @@ homebrew_packages:
   - azure-cli
   - certbot
   - kubectl
+  - docker-machine-driver-xhyve
 homebrew_cask_apps:
   - atom
   - google-chrome
@@ -68,7 +69,7 @@ default_browser: chrome
 
 python_default_version: 2.7.14
 python_versions:
-  - stable
+  - latest
   - 2.7.14
 python_packages:
   - configparser
@@ -76,26 +77,25 @@ python_packages:
   - boto3
   - ruamel.yaml
 
-ruby_default_version: stable
+ruby_default_version: latest
 ruby_versions:
-  - stable
+  - latest
   - 2.4.2
 
-node_default_version: stable
+node_default_version: latest
 node_versions:
-  - stable
-  - 8.9.4
-  - 7.10.1
+  - latest
+  - 8.11.2
 node_packages:
   - depcheck
   - create-react-app
   - create-react-native-app
   - exp
-  - vue-cli
+  - @vue/cli
 
-go_default_version: stable
+go_default_version: latest
 go_versions:
-  - stable
+  - latest
 
 vagrant_plugins:
   - vagrant-hostsupdater
@@ -103,9 +103,9 @@ vagrant_plugins:
   - vagrant-triggers
   - aws-sdk
 
-terraform_default_version: stable
+terraform_default_version: latest
 terraform_versions:
-  - stable
+  - latest
 
 atom_packages:
   - language-terraform

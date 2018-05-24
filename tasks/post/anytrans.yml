@@ -1,11 +1,16 @@
 ---
 
-# TODO: make a check to see if ~/Library/Application Support/com.imobie.AnyTrans exists first before running this task
+- name: See if com.imobie.AnyTrans directory exists
+  stat:
+    path: ~/Library/Application Support/com.imobie.AnyTrans
+  register: anytrans_config_directory
+  tags: [ anytrans ]
+
 - name: Make sure that AnyTrans has been opened at least once
   shell: >
     open -a AnyTrans && sleep 4 && osascript -e 'quit app "AnyTrans"'
   changed_when: false
-  when: anytrans_enabled
+  when: anytrans_enabled and (not anytrans_config_directory.stat.exists)
   tags: [ anytrans ]
 
 - name: See if we have AnyTrans license entered already
@@ -26,6 +31,5 @@
 - name: Set AnyTrans Registered
   command: >
     /usr/libexec/PlistBuddy -c "Set :IsRegistered true" ~/Library/Application\ Support/com.imobie.AnyTrans/AnyTrans/IMBSoftware-Info.plist
-  #when: "anytrans_existing_license.stdout != anytrans_licensecode"
-  when: anytrans_enabled
+  when: "(anytrans_enabled) and (anytrans_existing_license.stdout != anytrans_licensecode)"
   tags: [ anytrans ]
